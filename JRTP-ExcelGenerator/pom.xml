@@ -12,8 +12,8 @@
 	<artifactId>JRTP-MP01-InsuranceReportGeneration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>JRTP-MP01-InsuranceReportGeneration</name>
-	<description>Demo project for Logger</description>
+	<name>JRTP-ExcelGenerator</name>
+	<description>Demo project for Excel Doenloader</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -87,17 +87,11 @@
 		    <artifactId>apache-jstl</artifactId>
 		    <version>11.0.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 		<dependency>
-		    <groupId>com.opencsv</groupId>
-		    <artifactId>opencsv</artifactId>
-		    <version>5.9</version>
-		</dependency>
-			<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
-		<dependency>
-		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itextpdf</artifactId>
-		    <version>5.5.13.3</version>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>5.4.0</version>
 		</dependency>
 
 	</dependencies>
