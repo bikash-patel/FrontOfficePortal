@@ -24,7 +24,7 @@ public class MyInsuranceManagementServiceImpl implements IInsuuranceManagementSe
 	private MyInsuranceRepo repository;
 	
 	@Override
-	public String excelCreator(HttpServletResponse response) throws Exception {
+	public void excelCreator(HttpServletResponse response) throws Exception {
 		
 		//Create an empty workbook
 		Workbook workbook=new HSSFWorkbook();
@@ -69,12 +69,23 @@ public class MyInsuranceManagementServiceImpl implements IInsuuranceManagementSe
 			rowIndex++;
 		}
 		
+		
+		//For downloading 
 		ServletOutputStream stream=response.getOutputStream();
 		workbook.write(stream);
 		workbook.close();
 		
 		
-		return null;
+		//For write data to the desktop
+		try(FileOutputStream fos=new FileOutputStream(new File("C:\\Users\\bikash patel\\Desktop\\insurance.xls"))){
+			workbook.write(fos);
+			workbook.close();
+			System.out.println("Created");
+		} catch (Exception e) {
+			e.printStackTrace();
+			workbook.close();
+			System.out.println("Not Created");
+		}
 	}
 
 }
