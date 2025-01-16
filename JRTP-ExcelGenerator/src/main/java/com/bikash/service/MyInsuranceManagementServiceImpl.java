@@ -104,6 +104,7 @@ public class MyInsuranceManagementServiceImpl implements IInsuuranceManagementSe
 		
 		//Step 2: Create Pdf writer and attached to the output stream
 		PdfWriter pw=PdfWriter.getInstance(doc,response.getOutputStream());
+		PdfWriter pw2=PdfWriter.getInstance(doc,new FileOutputStream(new File("C:\\Users\\bikash patel\\Desktop\\insurance.pdf")));
 		
 		//Step 3: Open the document to write
 		doc.open();
