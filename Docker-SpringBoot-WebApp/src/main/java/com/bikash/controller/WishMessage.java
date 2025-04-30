@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WishMessage {
 	
 	@GetMapping("/message/{name}")
-	public ResponseEntity<String> getMessage(@PathVariable String name)
+	public ResponseEntity<String> getMessage(@PathVariable("name") String name)
 	{
 		return new ResponseEntity<String>("Good Morning "+name,HttpStatus.OK);
 	}
