@@ -17,9 +17,13 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "FO_Enquiry_Details")
+@Getter
+@Setter
 public class EnquiryDetails {
 	@Id
 	@SequenceGenerator(name = "enq_seq1", sequenceName = "FO_ENQUIRY_SEQ1", initialValue = 10000, allocationSize = 1)
@@ -45,96 +49,6 @@ public class EnquiryDetails {
 		return "EnquiryDetails [enquiryId=" + this.enquiryId + ", studentName=" + this.studentName + ", studentMailId="
 				+ this.studentMailId + ", studPhoneNumber=" + this.studPhoneNumber + ", classMode=" + this.classMode
 				+ ", courseName=" + this.courseName + ", enquiryStatus=" + this.enquiryStatus + "]";
-	}
-
-	@Generated
-	public Integer getEnquiryId() {
-		return this.enquiryId;
-	}
-
-	@Generated
-	public String getStudentName() {
-		return this.studentName;
-	}
-
-	@Generated
-	public String getStudentMailId() {
-		return this.studentMailId;
-	}
-
-	@Generated
-	public Long getStudPhoneNumber() {
-		return this.studPhoneNumber;
-	}
-
-	@Generated
-	public String getClassMode() {
-		return this.classMode;
-	}
-
-	@Generated
-	public String getCourseName() {
-		return this.courseName;
-	}
-
-	@Generated
-	public LocalDate getEnquiryDate() {
-		return this.enquiryDate;
-	}
-
-	@Generated
-	public String getEnquiryStatus() {
-		return this.enquiryStatus;
-	}
-
-	@Generated
-	public UserAccount getUserAcccount() {
-		return this.userAcccount;
-	}
-
-	@Generated
-	public void setEnquiryId(final Integer enquiryId) {
-		this.enquiryId = enquiryId;
-	}
-
-	@Generated
-	public void setStudentName(final String studentName) {
-		this.studentName = studentName;
-	}
-
-	@Generated
-	public void setStudentMailId(final String studentMailId) {
-		this.studentMailId = studentMailId;
-	}
-
-	@Generated
-	public void setStudPhoneNumber(final Long studPhoneNumber) {
-		this.studPhoneNumber = studPhoneNumber;
-	}
-
-	@Generated
-	public void setClassMode(final String classMode) {
-		this.classMode = classMode;
-	}
-
-	@Generated
-	public void setCourseName(final String courseName) {
-		this.courseName = courseName;
-	}
-
-	@Generated
-	public void setEnquiryDate(final LocalDate enquiryDate) {
-		this.enquiryDate = enquiryDate;
-	}
-
-	@Generated
-	public void setEnquiryStatus(final String enquiryStatus) {
-		this.enquiryStatus = enquiryStatus;
-	}
-
-	@Generated
-	public void setUserAcccount(final UserAccount userAcccount) {
-		this.userAcccount = userAcccount;
 	}
 
 	@Generated

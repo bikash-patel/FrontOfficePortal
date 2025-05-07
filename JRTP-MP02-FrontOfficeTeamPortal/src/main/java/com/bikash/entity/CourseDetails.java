@@ -14,9 +14,13 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "FO_Course_Details")
+@Getter
+@Setter
 public class CourseDetails {
 	@Id
 	@SequenceGenerator(name = "seq1", sequenceName = "FO_COURSE_SEQ1", initialValue = 100, allocationSize = 1)
@@ -30,70 +34,6 @@ public class CourseDetails {
 	private String duration;
 	private Double fees;
 	private LocalDate startDate;
-
-	@Generated
-	public CourseDetails() {
-	}
-
-	@Generated
-	public Integer getCourseId() {
-		return this.courseId;
-	}
-
-	@Generated
-	public String getCourseName() {
-		return this.courseName;
-	}
-
-	@Generated
-	public String getCourseMode() {
-		return this.courseMode;
-	}
-
-	@Generated
-	public String getDuration() {
-		return this.duration;
-	}
-
-	@Generated
-	public Double getFees() {
-		return this.fees;
-	}
-
-	@Generated
-	public LocalDate getStartDate() {
-		return this.startDate;
-	}
-
-	@Generated
-	public void setCourseId(final Integer courseId) {
-		this.courseId = courseId;
-	}
-
-	@Generated
-	public void setCourseName(final String courseName) {
-		this.courseName = courseName;
-	}
-
-	@Generated
-	public void setCourseMode(final String courseMode) {
-		this.courseMode = courseMode;
-	}
-
-	@Generated
-	public void setDuration(final String duration) {
-		this.duration = duration;
-	}
-
-	@Generated
-	public void setFees(final Double fees) {
-		this.fees = fees;
-	}
-
-	@Generated
-	public void setStartDate(final LocalDate startDate) {
-		this.startDate = startDate;
-	}
 
 	@Generated
 	public boolean equals(final Object o) {

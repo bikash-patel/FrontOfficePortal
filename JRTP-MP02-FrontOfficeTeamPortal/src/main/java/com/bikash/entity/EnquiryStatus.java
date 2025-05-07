@@ -13,9 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "FO_Enquiry_Status")
+@Getter
+@Setter
 public class EnquiryStatus {
 	@Id
 	@SequenceGenerator(name = "seq1", sequenceName = "FO_ENQUIRYSTS_SEQ1", initialValue = 1, allocationSize = 1)
@@ -24,29 +28,6 @@ public class EnquiryStatus {
 	@Column(length = 30)
 	private String status;
 
-	@Generated
-	public EnquiryStatus() {
-	}
-
-	@Generated
-	public Integer getEnquiryId() {
-		return this.enquiryId;
-	}
-
-	@Generated
-	public String getStatus() {
-		return this.status;
-	}
-
-	@Generated
-	public void setEnquiryId(final Integer enquiryId) {
-		this.enquiryId = enquiryId;
-	}
-
-	@Generated
-	public void setStatus(final String status) {
-		this.status = status;
-	}
 
 	@Generated
 	public boolean equals(final Object o) {

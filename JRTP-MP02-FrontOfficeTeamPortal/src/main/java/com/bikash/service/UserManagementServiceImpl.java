@@ -7,6 +7,7 @@ package com.bikash.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.bikash.dto.LoginForm;
@@ -27,6 +28,9 @@ public class UserManagementServiceImpl implements IUserManagementService {
     private MailsUtils mail;
     @Autowired
     private HttpSession session;
+    
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public UserManagementServiceImpl() {
     }
@@ -60,7 +64,12 @@ public class UserManagementServiceImpl implements IUserManagementService {
             userAcc.setPassword(tempPassword);
             userAcc.setAccountStatus("LOCKED");
             this.userRepo.save(userAcc);
-            String data = "<html><body><h1>Unlock your account with the below temporary password</h1><p>Temporary Password: <strong>" + tempPassword + "</strong></p><p><a href=\"http://localhost:8082/JRTP-MP02-FrontOfficeTeamPortal/unloackaccount?mail=" + signupForm.getMailId() + "\">Click Here To Unlock</a></p></body></html>";
+            String data = "<html><body><h1>Unlock your account with the below temporary password</h1><p>Temporary Password: <strong>" + tempPassword + "</strong></p><p><a href=\""+baseUrl+"/unloackaccount?mail=" + signupForm.getMailId() + "\">Click Here To Unlock</a></p></body></html>";
+			/*String data = "<html><body><h1>Unlock your account with the below temporary password</h1>"
+				    + "<p>Temporary Password: <strong>" + tempPassword + "</strong></p>"
+				    + "<p><a href=\"" + baseUrl + "/unloackaccount?mail=" + signupForm.getMailId()
+				    + "\">Click Here To Unlock</a></p></body></html>";*/
+
             String subject = "Unlocke your account | Crazy Coding";
             this.mail.sendMail(signupForm.getMailId(), data, subject);
             return true;
@@ -94,7 +103,8 @@ public class UserManagementServiceImpl implements IUserManagementService {
                 return status ? "Password sent to your Mail" : "Internal Problem Try Again Later.";
             } else {
                 var10000 = account.getPassword();
-                data = "<html><body><h1>Unlock your account with the below temporary password</h1><p>Temporary Password: <strong>" + var10000 + "</strong></p><p><a href=\"http://localhost:8082/JRTP-MP02-FrontOfficeTeamPortal/unloackaccount?mail=" + email + "\">Click Here To Unlock</a></p></body></html>";
+                //data = "<html><body><h1>Unlock your account with the below temporary password</h1><p>Temporary Password: <strong>" + var10000 + "</strong></p><p><a href=\"http://localhost:8082/JRTP-MP02-FrontOfficeTeamPortal/unloackaccount?mail=" + email + "\">Click Here To Unlock</a></p></body></html>";
+                data = "<html><body><h1>Unlock your account with the below temporary password</h1><p>Temporary Password: <strong>" + var10000 + "</strong></p><p><a href=\""+baseUrl+"/unloackaccount?mail=" + email + "\">Click Here To Unlock</a></p></body></html>";
                 subject = "Unlocke your account | Crazy Coding";
                 status = this.mail.sendMail(email, data, subject);
                 return status ? "Your Account is Locked , Mail sent to unlock" : "Your Account is Locked , Try Again Later to unlock";
