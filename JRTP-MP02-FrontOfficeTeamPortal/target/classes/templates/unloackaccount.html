@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Unlock Page</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+	<link rel="manifest" href="images/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  color: black;
+  text-align: center;
+}
+    	.gradient-custom-2 {
+/* fallback for old browsers */
+background: #fccb90;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+@media (min-width: 768px) {
+.gradient-form {
+height: 100vh !important;
+}
+}
+@media (min-width: 769px) {
+.gradient-custom-2 {
+border-top-right-radius: .3rem;
+border-bottom-right-radius: .3rem;
+}
+}
+</style>
+ </head>
+
+<body>
+<div class="container">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+		<img src="images/logo.jpg" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
+	</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="./">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact Us</a>
+        </li>
+      </ul>
+        <a href="./login"><button type="button" class="btn btn-danger">Login</button></a>
+    </div>
+  </div>
+</nav>
+</div>
+
+ <section class="h-100 gradient-form" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0">
+            <div class="col-lg-6">
+              <div class="card-body p-md-5 mx-md-4">
+
+                <div class="text-center">
+                  <img src="images/logo.png"
+                    style="width: 185px;" alt="logo">
+                  <h4 class="mt-1 mb-5 pb-1"></h4>
+                </div>
+
+                <form th:action="@{/unloackaccount}" method="POST" th:object="${unlock}">
+                  <h4 class="text-center">Unlock Your Account Here</h4>
+                  
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <p  class="text-danger" th:text="${errorMsg}">
+                  	<p th:text="'Your Email :' + ${unlock.mailId}">
+                  </div>
+                  
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="hidden" id="form2Example11" class="form-control"
+                       th:field="${unlock.mailId}"/>
+                  </div>
+                  
+                   <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="form2Example12" class="form-control"
+                      placeholder="Temporary Password" th:field="*{temporaryPassword}"/>
+                  </div>
+                  
+                   <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="password" id="form2Example13" class="form-control"
+                      placeholder="New Password" th:field="*{newPassword}"/>
+                  </div>
+                  
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="password" id="form2Example14" class="form-control"
+                      placeholder="Confirm Password" th:field="*{confirmPassword}"/>
+                  </div>
+
+					<div class="text-center pt-1 mb-5 pb-1">
+                    	<input type="submit" value="UNLOCK" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"> 
+                  </div>
+					
+                  <div class="d-flex align-items-center justify-content-center pb-4">
+                    <p class="mb-0 me-2">Already Unlocked ? </p>
+                    <a href="./register"><button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">LOGIN HERE</button></a>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                <h4 class="mb-4">Crazy Coding</h4>
+                <p class="small mb-0">Developing program make you a good programmer,
+                    But solving error make you a expert !</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <p class="text-center">© 2025 Crazy Coding, Inc.</p>
+</div>
+
+</body>
+
+</html>
