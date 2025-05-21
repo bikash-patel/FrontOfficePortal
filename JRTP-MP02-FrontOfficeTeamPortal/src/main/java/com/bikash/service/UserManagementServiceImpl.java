@@ -65,7 +65,8 @@ public class UserManagementServiceImpl implements IUserManagementService {
             userAcc.setAccountStatus("LOCKED");
             this.userRepo.save(userAcc);
             String data = "<html><body><h1>Unlock your account with the below temporary password</h1><p>Temporary Password: <strong>" + tempPassword + "</strong></p><p><a href=\""+baseUrl+"/unloackaccount?mail=" + signupForm.getMailId() + "\">Click Here To Unlock</a></p></body></html>";
-			/*String data = "<html><body><h1>Unlock your account with the below temporary password</h1>"
+			
+            /*String data = "<html><body><h1>Unlock your account with the below temporary password</h1>"
 				    + "<p>Temporary Password: <strong>" + tempPassword + "</strong></p>"
 				    + "<p><a href=\"" + baseUrl + "/unloackaccount?mail=" + signupForm.getMailId()
 				    + "\">Click Here To Unlock</a></p></body></html>";*/
