@@ -13,7 +13,8 @@ public class DefaultPasswordGenerator {
     private DefaultPasswordGenerator() {
     }
 
-    public static String generatePassword() {
+    @SuppressWarnings("deprecation")
+	public static String generatePassword() {
         return RandomStringUtils.randomAlphanumeric(6);
     }
 }
