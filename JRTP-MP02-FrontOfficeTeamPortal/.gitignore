@@ -1,7 +1,12 @@
 HELP.md
-target/
+# Ignore all target folders
+**/target/
+# Keep the root-level target folder
+!/target/
+# Ignore target folders inside src/test
+src/test/**/target/
+
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
