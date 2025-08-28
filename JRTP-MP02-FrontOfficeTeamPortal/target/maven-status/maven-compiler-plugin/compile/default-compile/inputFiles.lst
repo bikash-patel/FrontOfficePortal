@@ -1,5 +1,6 @@
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\appconst\AppConst.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\config\MyConfiguration.java
+C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\controller\CourseManagementController.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\controller\EnquiryManagementController.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\controller\HomeController.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\controller\UserManagementController.java
@@ -20,7 +21,9 @@ C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOffic
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\repository\EnquiryDetailsRepo.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\repository\EnquiryStatusRepo.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\repository\UserAccountRepo.java
+C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\service\CourseDetailsServiceImpl.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\service\EnquiryManagementServiceImpl.java
+C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\service\ICourseDetailsService.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\service\IEnquiryManagementService.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\service\IUserManagementService.java
 C:\Users\bikash patel\Desktop\StudyMeterial\Java\JRTP\Codes\JRTP-MP02-FrontOfficeTeamPortal\src\main\java\com\bikash\service\UserManagementServiceImpl.java

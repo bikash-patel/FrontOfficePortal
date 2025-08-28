@@ -1,9 +1,11 @@
+com\bikash\controller\CourseManagementController.class
 com\bikash\dto\EditEnquiryForm.class
 com\bikash\appconst\AppConst.class
 com\bikash\repository\CourseDetailsRepo.class
 com\bikash\entity\UserAccount.class
 com\bikash\JrtpMp02FrontOfficeTeamPortalApplication.class
 com\bikash\repository\EnquiryStatusRepo.class
+com\bikash\service\ICourseDetailsService.class
 com\bikash\controller\EnquiryManagementController.class
 com\bikash\dto\SearchCriteriaForm.class
 com\bikash\dto\SignUpForm.class
@@ -22,6 +24,7 @@ com\bikash\service\IUserManagementService.class
 com\bikash\controller\UserManagementController.class
 com\bikash\utils\MailsUtils.class
 com\bikash\service\IEnquiryManagementService.class
+com\bikash\service\CourseDetailsServiceImpl.class
 com\bikash\interceptor\SessionInterceptor.class
 com\bikash\ServletInitializer.class
 com\bikash\dto\DashboardResponse.class
