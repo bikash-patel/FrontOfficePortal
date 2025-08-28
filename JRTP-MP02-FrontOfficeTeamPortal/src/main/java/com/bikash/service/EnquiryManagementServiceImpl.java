@@ -17,6 +17,7 @@ import com.bikash.repository.CourseDetailsRepo;
 import com.bikash.repository.EnquiryDetailsRepo;
 import com.bikash.repository.EnquiryStatusRepo;
 import com.bikash.repository.UserAccountRepo;
+import com.bikash.utils.MailsUtils;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -24,130 +25,160 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EnquiryManagementServiceImpl implements IEnquiryManagementService {
-    @Autowired
-    private EnquiryDetailsRepo repo;
-    @Autowired
-    private CourseDetailsRepo courseRepo;
-    @Autowired
-    private EnquiryStatusRepo statusRepo;
-    @Autowired
-    private UserAccountRepo userRepo;
-    @Autowired
-    private HttpSession session;
 
-    public EnquiryManagementServiceImpl() {
-    }
+	private final MailsUtils mailsUtils;
 
-    public DashboardResponse getDashboard() {
-        Integer id = (Integer)this.session.getAttribute("userId");
-        Optional<UserAccount> opt = this.userRepo.findById(id);
-        List<EnquiryDetails> listEnquiry = null;
-        if (opt.isPresent()) {
-            UserAccount account = (UserAccount)opt.get();
-            listEnquiry = account.getEnquiry();
-        }
+	@Autowired
+	private EnquiryDetailsRepo repo;
+	@Autowired
+	private CourseDetailsRepo courseRepo;
+	@Autowired
+	private EnquiryStatusRepo statusRepo;
+	@Autowired
+	private UserAccountRepo userRepo;
+	@Autowired
+	private HttpSession session;
 
-        Integer totalEnquiry = listEnquiry != null ? listEnquiry.size() : 0;
-        Long enrolledStudent = listEnquiry != null ? listEnquiry.stream().filter((list) -> {
-            return list.getEnquiryStatus().equalsIgnoreCase("ENROLLED");
-        }).count() : 0L;
-        Long lostStudent = listEnquiry != null ? listEnquiry.stream().filter((list) -> {
-            return list.getEnquiryStatus().equalsIgnoreCase("LOST");
-        }).count() : 0L;
-        DashboardResponse response = new DashboardResponse();
-        response.setTotalEnquiry(totalEnquiry);
-        response.setEnrollStudent(enrolledStudent);
-        response.setLostStudent(lostStudent);
-        return response;
-    }
+	@Value(value = "${mail.template.enquiry}")
+	private String mailBody;
 
-    public String addEnquiry(AddEnquiryForm addForm) {
-        EnquiryDetails details = new EnquiryDetails();
-        BeanUtils.copyProperties(addForm, details);
-        details.setEnquiryDate(LocalDate.now());
-        Optional<UserAccount> optAcc = this.userRepo.findById((Integer)this.session.getAttribute("userId"));
-        if (optAcc.isPresent()) {
-            UserAccount account = (UserAccount)optAcc.get();
-            details.setUserAcccount(account);
-        }
+	@Value(value = "${mail.subject.enquiry}")
+	private String mailSubject;
 
-        this.repo.save(details);
-        return "Enquiry details saved";
-    }
+	public EnquiryManagementServiceImpl(MailsUtils mailsUtils) {
+		this.mailsUtils = mailsUtils;
+	}
 
-    public String editEnquiry(EditEnquiryForm addForm) {
-        Optional<EnquiryDetails> opt = this.repo.findById(addForm.getEnquiryId());
-        if (opt.isPresent()) {
-            EnquiryDetails details = (EnquiryDetails)opt.get();
-            BeanUtils.copyProperties(addForm, details);
-            this.repo.save(details);
-        }
+	public DashboardResponse getDashboard() {
+		Integer id = (Integer) this.session.getAttribute("userId");
+		Optional<UserAccount> opt = this.userRepo.findById(id);
+		List<EnquiryDetails> listEnquiry = null;
+		if (opt.isPresent()) {
+			UserAccount account = (UserAccount) opt.get();
+			listEnquiry = account.getEnquiry();
+		}
 
-        return "Details updated";
-    }
+		Integer totalEnquiry = listEnquiry != null ? listEnquiry.size() : 0;
+		Long enrolledStudent = listEnquiry != null ? listEnquiry.stream().filter((list) -> {
+			return list.getEnquiryStatus().equalsIgnoreCase("ENROLLED");
+		}).count() : 0L;
+		Long lostStudent = listEnquiry != null ? listEnquiry.stream().filter((list) -> {
+			return list.getEnquiryStatus().equalsIgnoreCase("LOST");
+		}).count() : 0L;
+		DashboardResponse response = new DashboardResponse();
+		response.setTotalEnquiry(totalEnquiry);
+		response.setEnrollStudent(enrolledStudent);
+		response.setLostStudent(lostStudent);
+		return response;
+	}
 
-    public List<EnquiryDetails> viewEnquiry(Integer id) {
-        Optional<UserAccount> opt = this.userRepo.findById(id);
-        if (opt.isPresent()) {
-            UserAccount account = (UserAccount)opt.get();
-            return account.getEnquiry();
-        } else {
-            return Collections.emptyList();
-        }
-    }
+	public String addEnquiry(AddEnquiryForm addForm) {
+		EnquiryDetails details = new EnquiryDetails();
+		BeanUtils.copyProperties(addForm, details);
+		details.setEnquiryDate(LocalDate.now());
+		Optional<UserAccount> optAcc = this.userRepo.findById((Integer) this.session.getAttribute("userId"));
+		if (optAcc.isPresent()) {
+			UserAccount account = (UserAccount) optAcc.get();
+			details.setUserAcccount(account);
+		}
 
-    public List<EnquiryDetails> viewEnquiryWithFiltered(Integer id, SearchCriteriaForm searchCriteria) {
-        EnquiryDetails enquiryDetails = new EnquiryDetails();
-        if (searchCriteria.getCourseName() != null && searchCriteria.getCourseName() != "") {
-            enquiryDetails.setCourseName(searchCriteria.getCourseName());
-        }
+		String htmlBody = String.format(mailBody, addForm.getStudentName(), // %s - studentName
+				addForm.getCourseName(), // %s - courseName
+				"Crazy Coding", // %s - instituteName
+				LocalDate.now(), // %s - enquiryDate
+				"Crazy Coding Institute", // %s - senderName
+				"Bargarh Road ,Odisha", // %s - instituteContact
+				"https://frontofficeportal.onrender.com/", // %s - instituteWebsite (href)
+				"https://crazycoding.com" // %s - instituteWebsite (display text)
+		);
 
-        if (searchCriteria.getEnquiryStatus() != null && searchCriteria.getEnquiryStatus() != "") {
-            enquiryDetails.setEnquiryStatus(searchCriteria.getEnquiryStatus());
-        }
+		String subject = String.format(mailSubject, addForm.getCourseName(), "Crazy Coding Institute");
 
-        if (searchCriteria.getClassMode() != null && searchCriteria.getClassMode() != "") {
-            enquiryDetails.setClassMode(searchCriteria.getClassMode());
-        }
+		this.mailTriggered(addForm.getStudentMailId(), htmlBody, subject);
 
-        Optional<UserAccount> account = this.userRepo.findById(id);
-        if (account.isPresent()) {
-            enquiryDetails.setUserAcccount((UserAccount)account.get());
-        }
+		this.repo.save(details);
+		return "Enquiry details saved";
+	}
 
-        return this.repo.findAll(Example.of(enquiryDetails));
-    }
+	public String editEnquiry(EditEnquiryForm addForm) {
+		Optional<EnquiryDetails> opt = this.repo.findById(addForm.getEnquiryId());
+		if (opt.isPresent()) {
+			EnquiryDetails details = (EnquiryDetails) opt.get();
+			BeanUtils.copyProperties(addForm, details);
+			this.repo.save(details);
+		}
 
-    public String addCourse(CourseDetails details) {
-        int id = ((CourseDetails)this.courseRepo.save(details)).getCourseId();
-        return "Course added with id " + id;
-    }
+		return "Details updated";
+	}
 
-    public String addStatus(EnquiryStatus status) {
-        int id = ((EnquiryStatus)this.statusRepo.save(status)).getEnquiryId();
-        return "Status added with id " + id;
-    }
+	public List<EnquiryDetails> viewEnquiry(Integer id) {
+		Optional<UserAccount> opt = this.userRepo.findById(id);
+		if (opt.isPresent()) {
+			UserAccount account = (UserAccount) opt.get();
+			return account.getEnquiry();
+		} else {
+			return Collections.emptyList();
+		}
+	}
 
-    public List<String> getStatus() {
-        return this.statusRepo.getStatus();
-    }
+	public List<EnquiryDetails> viewEnquiryWithFiltered(Integer id, SearchCriteriaForm searchCriteria) {
+		EnquiryDetails enquiryDetails = new EnquiryDetails();
+		if (searchCriteria.getCourseName() != null && searchCriteria.getCourseName() != "") {
+			enquiryDetails.setCourseName(searchCriteria.getCourseName());
+		}
 
-    public List<String> getCourses() {
-        return this.courseRepo.getCourses();
-    }
+		if (searchCriteria.getEnquiryStatus() != null && searchCriteria.getEnquiryStatus() != "") {
+			enquiryDetails.setEnquiryStatus(searchCriteria.getEnquiryStatus());
+		}
 
-    public EnquiryDetails getEditDetails(Integer id) {
-        Optional<EnquiryDetails> opt = this.repo.findById(id);
-        EnquiryDetails enquiryDetails = null;
-        if (opt.isPresent()) {
-            enquiryDetails = (EnquiryDetails)opt.get();
-        }
+		if (searchCriteria.getClassMode() != null && searchCriteria.getClassMode() != "") {
+			enquiryDetails.setClassMode(searchCriteria.getClassMode());
+		}
 
-        return enquiryDetails;
-    }
+		Optional<UserAccount> account = this.userRepo.findById(id);
+		if (account.isPresent()) {
+			enquiryDetails.setUserAcccount((UserAccount) account.get());
+		}
+
+		return this.repo.findAll(Example.of(enquiryDetails));
+	}
+
+	public String addCourse(CourseDetails details) {
+		int id = ((CourseDetails) this.courseRepo.save(details)).getCourseId();
+		return "Course added with id " + id;
+	}
+
+	public String addStatus(EnquiryStatus status) {
+		int id = ((EnquiryStatus) this.statusRepo.save(status)).getEnquiryId();
+		return "Status added with id " + id;
+	}
+
+	public List<String> getStatus() {
+		return this.statusRepo.getStatus();
+	}
+
+	public List<String> getCourses() {
+		return this.courseRepo.getCourses();
+	}
+
+	public EnquiryDetails getEditDetails(Integer id) {
+		Optional<EnquiryDetails> opt = this.repo.findById(id);
+		EnquiryDetails enquiryDetails = null;
+		if (opt.isPresent()) {
+			enquiryDetails = (EnquiryDetails) opt.get();
+		}
+
+		return enquiryDetails;
+	}
+
+	private void mailTriggered(String to, String mailBody, String subject) {
+
+		mailsUtils.sendMail(to, mailBody, subject);
+	}
 }

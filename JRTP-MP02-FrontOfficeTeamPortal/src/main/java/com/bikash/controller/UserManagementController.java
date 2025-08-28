@@ -68,6 +68,11 @@ public class UserManagementController {
     public String forgotPswdPage() {
         return "forgotpassword";
     }
+    
+    @GetMapping("/contact")
+    public String showContactPage() {
+        return "contact";
+    }
 
     @PostMapping({"/forgotpassword"})
     public String forgotPswdData(@RequestParam String mailId, Map<String, Object> map, RedirectAttributes red) {

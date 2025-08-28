@@ -11,6 +11,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CourseDetailsRepo extends JpaRepository<CourseDetails, Integer> {
-    @Query("SELECT courseName FROM CourseDetails")
-    List<String> getCourses();
+	
+	@Query("SELECT courseName FROM CourseDetails")
+	List<String> getCourses();
+
+	public Boolean existsByCourseName(String courseName);
+
+	public CourseDetails findByCourseName(String courseName);
+
 }

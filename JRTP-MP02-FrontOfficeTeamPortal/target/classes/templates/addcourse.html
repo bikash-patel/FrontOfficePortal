@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Course</title>
+<link rel="apple-touch-icon" sizes="180x180"
+	href="images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32"
+	href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16"
+	href="images/favicon-16x16.png">
+<link rel="manifest" href="images/site.webmanifest">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<style>
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: white;
+	color: black;
+	text-align: center;
+}
+
+.btn-custom-gradient {
+	background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	padding: 10px 30px;
+	font-weight: bold;
+}
+
+.btn-custom-gradient:hover {
+	background: linear-gradient(to right, #b44593, #dd3675, #d8363a, #ee7724);
+	color: white;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#"> <img src="/images/logo.jpg"
+					alt="Avatar Logo" style="width: 40px;" class="rounded-pill">
+				</a>
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active"
+							aria-current="page" href="/dashboard">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="/addenquiry">Add
+								Enquiry</a></li>
+						<li class="nav-item"><a class="nav-link" href="/viewenquiry">View
+								Enquiry</a></li>
+						<li class="nav-item"><a class="nav-link" href="./addcourse">Add
+								Course</a></li>
+						<li class="nav-item"><a class="nav-link" href="./viewcourse">View
+								Course</a></li>
+					</ul>
+					<a href="/logout">
+						<button type="button" class="btn btn-danger">Logout</button>
+					</a>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Form Section -->
+		<section class="h-100 gradient-form" style="background-color: #eee;">
+			<div class="container py-5 h-100">
+				<div
+					class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-xl-10">
+						<div class="card rounded-3 text-black">
+							<div class="row g-0">
+								<!-- Left side: Form -->
+								<div class="col-lg-6">
+									<div class="card-body p-md-5 mx-md-4">
+										<h5>Add New Course</h5>
+										<p class="text-success" th:text="${successMsg}"></p>
+
+										<form th:action="@{/course/addcourse}" method="post"
+											th:object="${course}" onsubmit="return validateCourseMode()">
+											<div class="form-outline mb-4">
+												<label>Course Name</label> <input type="text"
+													class="form-control" th:field="*{courseName}" required />
+											</div>
+
+											<!-- REPLACED: Course Mode dropdown -> checkboxes -->
+											<div class="form-outline mb-4">
+												<label>Course Mode</label>
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox"
+														th:field="*{courseMode}" value="Online" id="modeOnline" />
+													<label class="form-check-label" for="modeOnline">Online</label>
+												</div>
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox"
+														th:field="*{courseMode}" value="Offline" id="modeOffline" />
+													<label class="form-check-label" for="modeOffline">Offline</label>
+												</div>
+											</div>
+
+											<div class="form-outline mb-4">
+												<label>Duration</label> <input type="text"
+													class="form-control" th:field="*{duration}"
+													placeholder="e.g. 3 months" required />
+											</div>
+
+											<div class="form-outline mb-4">
+												<label>Fees</label> <input type="number"
+													class="form-control" th:field="*{fees}" required />
+											</div>
+
+											<div class="form-outline mb-4">
+												<label>Start Date</label> <input type="date"
+													class="form-control" th:field="*{startDate}" required />
+											</div>
+
+											<div class="text-center pt-1 mb-5 pb-1">
+												<button type="submit" class="btn btn-custom-gradient">Add
+													Course</button>
+											</div>
+										</form>
+									</div>
+								</div>
+
+								<!-- Right side: Image -->
+								<div
+									class="col-lg-6 d-flex align-items-center gradient-custom-2">
+									<div class="text-white px-3 py-4 p-md-5 mx-md-4">
+										<img alt="" src="/images/leady.png" height="400px"
+											width="300px">
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Footer -->
+	<div class="footer">
+		<p class="text-center">© 2025 Crazy Coding, Inc.</p>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- small client-side validation: ensure at least one checkbox is selected -->
+	<script>
+		function validateCourseMode() {
+			var on = document.getElementById('modeOnline').checked;
+			var off = document.getElementById('modeOffline').checked;
+			if (!on && !off) {
+				alert('Please select at least one course mode (Online or Offline).');
+				return false;
+			}
+			return true;
+		}
+	</script>
+</body>
+</html>

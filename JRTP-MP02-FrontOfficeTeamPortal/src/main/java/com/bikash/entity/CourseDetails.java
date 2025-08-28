@@ -1,134 +1,50 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.bikash.entity;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "FO_Course_Details")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseDetails {
+
 	@Id
 	@SequenceGenerator(name = "seq1", sequenceName = "FO_COURSE_SEQ1", initialValue = 100, allocationSize = 1)
 	@GeneratedValue(generator = "seq1", strategy = GenerationType.SEQUENCE)
 	private Integer courseId;
+
 	@Column(length = 30)
 	private String courseName;
-	@Column(length = 30)
-	private String courseMode;
+
+	@ElementCollection(fetch = FetchType.EAGER) // <--- important for List<String>
+	@CollectionTable(name = "course_modes", joinColumns = @JoinColumn(name = "course_id"))
+	@Column(name = "mode")
+	private List<String> courseMode; // will store modes like ["Online", "Offline"]
+
 	@Column(length = 30)
 	private String duration;
+
 	private Double fees;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
-
-	@Generated
-	public boolean equals(final Object o) {
-		if (o == this) {
-			return true;
-		} else if (!(o instanceof CourseDetails)) {
-			return false;
-		} else {
-			CourseDetails other = (CourseDetails) o;
-			if (!other.canEqual(this)) {
-				return false;
-			} else {
-				Object this$courseId = this.getCourseId();
-				Object other$courseId = other.getCourseId();
-				if (this$courseId == null) {
-					if (other$courseId != null) {
-						return false;
-					}
-				} else if (!this$courseId.equals(other$courseId)) {
-					return false;
-				}
-
-				Object this$fees = this.getFees();
-				Object other$fees = other.getFees();
-				if (this$fees == null) {
-					if (other$fees != null) {
-						return false;
-					}
-				} else if (!this$fees.equals(other$fees)) {
-					return false;
-				}
-
-				Object this$courseName = this.getCourseName();
-				Object other$courseName = other.getCourseName();
-				if (this$courseName == null) {
-					if (other$courseName != null) {
-						return false;
-					}
-				} else if (!this$courseName.equals(other$courseName)) {
-					return false;
-				}
-
-				label62: {
-					Object this$courseMode = this.getCourseMode();
-					Object other$courseMode = other.getCourseMode();
-					if (this$courseMode == null) {
-						if (other$courseMode == null) {
-							break label62;
-						}
-					} else if (this$courseMode.equals(other$courseMode)) {
-						break label62;
-					}
-
-					return false;
-				}
-
-				label55: {
-					Object this$duration = this.getDuration();
-					Object other$duration = other.getDuration();
-					if (this$duration == null) {
-						if (other$duration == null) {
-							break label55;
-						}
-					} else if (this$duration.equals(other$duration)) {
-						break label55;
-					}
-
-					return false;
-				}
-
-				Object this$startDate = this.getStartDate();
-				Object other$startDate = other.getStartDate();
-				if (this$startDate == null) {
-					if (other$startDate != null) {
-						return false;
-					}
-				} else if (!this$startDate.equals(other$startDate)) {
-					return false;
-				}
-
-				return true;
-			}
-		}
-	}
-
-	@Generated
-	protected boolean canEqual(final Object other) {
-		return other instanceof CourseDetails;
-	}
-
-	@Generated
-	public String toString() {
-		Integer var10000 = this.getCourseId();
-		return "CourseDetails(courseId=" + var10000 + ", courseName=" + this.getCourseName() + ", courseMode="
-				+ this.getCourseMode() + ", duration=" + this.getDuration() + ", fees=" + this.getFees()
-				+ ", startDate=" + this.getStartDate() + ")";
-	}
 }

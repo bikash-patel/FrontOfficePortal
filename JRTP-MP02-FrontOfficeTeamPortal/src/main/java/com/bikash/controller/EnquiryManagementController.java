@@ -9,7 +9,9 @@ import com.bikash.dto.AddEnquiryForm;
 import com.bikash.dto.DashboardResponse;
 import com.bikash.dto.EditEnquiryForm;
 import com.bikash.dto.SearchCriteriaForm;
+import com.bikash.entity.CourseDetails;
 import com.bikash.entity.EnquiryDetails;
+import com.bikash.repository.CourseDetailsRepo;
 import com.bikash.service.IEnquiryManagementService;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -27,6 +29,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class EnquiryManagementController {
 	@Autowired
 	private IEnquiryManagementService enquiryService;
+
+	@Autowired
+	private CourseDetailsRepo courseDetailsRepo;
+
 	@Autowired
 	private HttpSession session;
 
@@ -57,6 +63,9 @@ public class EnquiryManagementController {
 	@GetMapping({ "/editenquirydata" })
 	public String editEnquiryPage(@ModelAttribute("enquiry") EditEnquiryForm enquiryForm, Map<String, Object> map) {
 		this.loadSelectData(map);
+		CourseDetails byCourseName = courseDetailsRepo.findByCourseName(enquiryForm.getCourseName());
+		List<String> courseMode = byCourseName.getCourseMode();
+		map.put("classModes", courseMode);
 		return "editenquiry";
 	}
 
@@ -73,6 +82,14 @@ public class EnquiryManagementController {
 		EnquiryDetails enquiryDetails = this.enquiryService.getEditDetails(enquiryId);
 		BeanUtils.copyProperties(enquiryDetails, enquiryForm);
 		this.loadSelectData(map);
+		// Load courseMode here
+		if (enquiryForm.getCourseName() != null) {
+			CourseDetails byCourseName = courseDetailsRepo.findByCourseName(enquiryForm.getCourseName());
+			if (byCourseName != null) {
+				List<String> courseMode = byCourseName.getCourseMode();
+				map.put("classModes", courseMode);
+			}
+		}
 		return "editenquiry";
 	}
 
@@ -99,9 +116,15 @@ public class EnquiryManagementController {
 		return "viewenquiryfilter";
 	}
 
+	@GetMapping("/contact-auth")
+	public String showContactPage() {
+		return "contact-auth";
+	}
+
 	public void loadSelectData(Map<String, Object> map) {
 		List<String> courses = this.enquiryService.getCourses();
 		List<String> status = this.enquiryService.getStatus();
+
 		map.put("courses", courses);
 		map.put("statuses", status);
 	}
